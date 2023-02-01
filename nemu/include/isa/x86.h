@@ -18,12 +18,17 @@
  */
 
 typedef struct {
-  struct {
+  // struct {
+  //   uint32_t _32;
+  //   uint16_t _16;
+  //   uint8_t _8[2];
+  // } gpr[8];
+
+  union {
     uint32_t _32;
     uint16_t _16;
     uint8_t _8[2];
   } gpr[8];
-
   /* Do NOT change the order of the GPRs' definitions. */
 
   /* In NEMU, rtlreg_t is exactly uint32_t. This makes RTL instructions

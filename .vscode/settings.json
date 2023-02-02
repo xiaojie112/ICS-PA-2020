@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "stdlib.h": "c",
+        "isa.h": "c",
+        "limits": "c",
+        "reg.h": "c",
+        "time.h": "c",
+        "exec.h": "c",
+        "decode.h": "c",
+        "history.h": "c",
+        "readline.h": "c"
+    }
+}

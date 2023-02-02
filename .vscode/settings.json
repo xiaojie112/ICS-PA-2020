@@ -8,6 +8,7 @@
         "exec.h": "c",
         "decode.h": "c",
         "history.h": "c",
-        "readline.h": "c"
+        "readline.h": "c",
+        "stdio.h": "c"
     }
 }

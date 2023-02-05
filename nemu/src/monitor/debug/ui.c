@@ -29,6 +29,7 @@ static char* rl_gets() {
 }
 
 static int cmd_c(char *args) {
+  // printf("%p", &cpu);
   cpu_exec(-1);
   return 0;
 }
@@ -55,6 +56,29 @@ static int cmd_si(char *args){
   }
   return 0;
 }
+
+// static int cmd_x(char *args) {
+//   char *n = strtok(NULL, " ");
+//   char *exp = strtok(NULL, " ");
+//   int num;
+//   word_t addr;
+//   sscanf(n, "%d", &num);
+
+//   bool success = false;
+//   addr = expr(exp, &success);
+//   if (!success) {
+//     printf("Invalid Expression\n");
+//     return 0;
+//   }
+  
+//   printf("0x%08x:", addr);
+//   int i = 0;
+//   while (num--) {
+//     printf(" %02x", vaddr_read(addr + (i++), 1));
+//   }
+//   putchar('\n');
+//   return 0;
+// }
 
 static int cmd_x(char *args){
     //获取内存起始地址和扫描长度。
@@ -93,19 +117,38 @@ static int cmd_x(char *args){
    // printf("%#lX\n",ad);
     //进行内存扫描,每次四个字节;
     for(int i = 0 ; i < n ; i++){
-        uint32_t data = vaddr_read(addr + i * 4,4);
-        printf("0x%08x  " , addr + i * 4 );
-        for(int j =0 ; j < 4 ; j++){
-            printf("0x%02x " , data & 0xff);
-            data = data >> 8 ;
-        }
-        printf("\n");
+      // printf("%d\n", addr + i*4);
+
+      uint32_t data = vaddr_read(addr + i * 4,4);
+      // printf("0x%08x\n", data);
+      printf("0x%08x  " , addr + i * 4 );
+      for(int j =0 ; j < 4 ; j++){
+          printf("0x%02x " , data & 0xff);
+          data = data >> 8 ;
+      }
+      printf("\n");
     }
      
     return 0;
 }    
 
 
+
+static int cmd_p(char *args) {
+  char *exp = args;
+
+  //在求值过程中发现表达式不合法的时候, 应该给上层函数返回一个表示出错的标识, 告诉上层函数"求值的结果是无效的"
+  bool success = false;
+  word_t val = expr(exp, &success);
+  // assert(success);
+  if(success == true){
+    // printf("%u\n", val);
+    printf("%u (0x%x)\n", val, val);
+  }else{
+    printf("%s\n", "expression not valid!");
+  }
+  return 0;
+}
 
 static struct {
   char *name;
@@ -118,6 +161,7 @@ static struct {
   { "si", "Let the program pause after executing N instructions in a single step,The default is 1 when N is not given", cmd_si},
   { "info", "Print program status", cmd_info},
   { "x", "Scanning memory", cmd_x},
+  {"p", "Print value of expression EXP.", cmd_p},
   /* TODO: Add more commands */
 
 };

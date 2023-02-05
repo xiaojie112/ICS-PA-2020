@@ -3,10 +3,11 @@
 
 #include <common.h>
 
+
 static inline word_t vaddr_read(vaddr_t addr, int len) {
   word_t vaddr_read1(vaddr_t addr);
   word_t vaddr_read2(vaddr_t addr);
-  word_t vaddr_read4(vaddr_t addr);
+  word_t vaddr_read4(vaddr_t addr);    //进行内存扫描,每次四个字节;
 #ifdef ISA64
   word_t vaddr_read8(vaddr_t addr);
 #endif
